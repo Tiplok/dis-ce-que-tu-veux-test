@@ -1,0 +1,9 @@
+{
+    "name": "dis-ce-que-tu-veux",
+    "version": "0.0.1",
+    "description": "Jeu communautaire : Dis ce que tu veux",
+    "dependencies": {
+        "express": "^4.10.2",
+        "socket.io": "^1.4.8"
+    }
+}

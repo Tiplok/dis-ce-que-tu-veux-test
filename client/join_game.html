@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Dis ce que tu veux - Héberger une partie</title>
+        <link rel="stylesheet" type="text/css" href="design/style.css">
+    </head>
+    <body>
+        <div id="main_content">
+            <p>
+                Entrez le code d'une partie pour y entrer : <input type="text" value=""><br>
+                Liste des parties disponibles :
+            </p>
+            <div id='rooms'>
+                
+            </div>
+            <form action="/">
+                <input type="submit" value="Retour" />
+            </form>
+            <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+            <script src="/socket.io/socket.io.js"></script>
+            <script>
+                var socket = io();
+                
+                // On envoit un event register au serveur
+                socket.emit('register', localStorage.getItem('id'));
+                
+                // Quand on reçoit un event message du serveur
+                socket.on('register', function (id){
+                   localStorage.setItem('id', id);
+                });
+                
+                socket.on('updaterooms', function (rooms, current_room) {
+                    $('#rooms').empty();
+                    $.each(rooms, function(key, value) {
+                        if(value == current_room){
+                            $('#rooms').append('<div>' + value + '</div>');
+                        }
+                        else {
+                            $('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </body>
+</html>

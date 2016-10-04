@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Dis ce que tu veux - Héberger une partie</title>
+        <link rel="stylesheet" type="text/css" href="design/style.css">
+    </head>
+    <body>
+        <div id="main_content">
+            <p>
+                Vous héberger une partie.<br>
+                Code à donner pour rejoindre le salon : <span id='roomCode'></span><br>
+                Liste des joueurs dans le salon :
+            </p>
+            <form action="/">
+                <input type="submit" value="Retour" />
+            </form>
+            <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+            <script src="/socket.io/socket.io.js"></script>
+            <script>
+                var socket = io();
+                
+                // On envoit un event register au serveur
+                socket.emit('register', localStorage.getItem('id'));
+                
+                // Quand on reçoit un event message du serveur
+                socket.on('register', function (id){
+                   localStorage.setItem('id', id);
+                });
+                
+                // On génère un id unique
+                roomId = Math.random().toString(25).substring(3,16) + +new Date;
+                socket.emit('createRoom', roomId);
+                
+                socket.on('createRoom', function (roomCode){
+                   $('#roomCode').append(roomCode);
+                });
+            </script>
+        </div>
+    </body>
+</html>

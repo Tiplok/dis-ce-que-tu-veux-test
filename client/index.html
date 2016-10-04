@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Dis ce que tu veux - Accueil</title>
+        <link rel="stylesheet" type="text/css" href="../design/style.css">
+    </head>
+    <body>
+        <div id="main_content">
+            <form action="/host_game">
+                <input type="submit" value="Héberger une partie" />
+            </form>
+            <form action="/join_game">
+                <input type="submit" value="Rejoindre une partie" />
+            </form>
+            <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+            <script src="/socket.io/socket.io.js"></script>
+            <script>
+                var socket = io();
+                
+                // On envoit un event register au serveur
+                socket.emit('register', localStorage.getItem('id'));
+                
+                // Quand on reçoit un event message du serveur
+                socket.on('register', function (id){
+                   localStorage.setItem('id', id);
+                });
+            </script>
+        </div>
+    </body>
+</html>
