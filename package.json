@@ -2,8 +2,18 @@
   "name": "dis-ce-que-tu-veux",
   "version": "0.0.1",
   "description": "Jeu communautaire : Dis ce que tu veux",
+  "readme": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tiplok/dis-ce-que-tu-veux"
+  },
+  "bugs": {
+    "url": "https://github.com/Tiplok/dis-ce-que-tu-veux/issues"
+  },
+  "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.10.2",
     "socket.io": "^1.4.8"
   }
+
 }

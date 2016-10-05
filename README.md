@@ -2,5 +2,7 @@
 Application Web - Dis ce que tu veux - Développée dans le cadre du projet PLATINE du Master Informatique E-services à l'Université Lille 1
 
 Nécessite l'installation de Node.js, du module express et socket.io pour faire fonctionner le serveur.  
-Exemple de lancement du serveur : node server/index.js  
-Accès au serveur : http://localhost:3000/
+- Installation des dépendances avec npm : 'npm install' à la racine  
+- Lancement du serveur : 'node server/index.js' à la racine  
+- Accès au serveur en local : 'http://localhost:3000/' dans un navigateur
+- Accès au serveur en externe (serveur lancé sur la machine M5) : 'http://172.18.13.133:3000/' dans un navigateur
