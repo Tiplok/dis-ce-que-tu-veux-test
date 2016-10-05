@@ -7,7 +7,7 @@
     <body>
         <div id="main_content">
             <p>
-                Entrez le code d'une partie pour y entrer : <input type="text" value=""><br>
+                Entrez le code d'une partie pour y entrer : <input id="roomCode" type="text" value=""><input type="button" value="Entrer" onclick="socket.emit('joinRoom', document.getElementById('roomCode').value)"><br>
                 Liste des parties disponibles :
             </p>
             <div id='rooms'>
@@ -29,16 +29,17 @@
                    localStorage.setItem('id', id);
                 });
                 
-                socket.on('updaterooms', function (rooms, current_room) {
+                socket.emit('askRooms');
+                
+                socket.on('updateRooms', function (rooms) {
                     $('#rooms').empty();
-                    $.each(rooms, function(key, value) {
-                        if(value == current_room){
-                            $('#rooms').append('<div>' + value + '</div>');
-                        }
-                        else {
-                            $('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
-                        }
+                    $.each(rooms, function(key, room) {
+                        $('#rooms').append('<a href="#" onclick="socket.emit(\'joinRoom\', \''+room.code+'\')">Salon de ' + room.creator.name + '</a>');
                     });
+                });
+                
+                socket.on('joinRoomRes', function(type, message){
+                    alert(message);
                 });
             </script>
         </div>

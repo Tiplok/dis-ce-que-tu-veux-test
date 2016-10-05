@@ -11,8 +11,11 @@
                 Code à donner pour rejoindre le salon : <span id='roomCode'></span><br>
                 Liste des joueurs dans le salon :
             </p>
+            <div id='players'>
+                
+            </div>
             <form action="/">
-                <input type="submit" value="Retour" />
+                <input type="submit" value="Quitter le salon" onclick="socket.emit('deleteRoom', socket.room);" />
             </form>
             <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
             <script src="/socket.io/socket.io.js"></script>
@@ -31,8 +34,18 @@
                 roomId = Math.random().toString(25).substring(3,16) + +new Date;
                 socket.emit('createRoom', roomId);
                 
-                socket.on('createRoom', function (roomCode){
-                   $('#roomCode').append(roomCode);
+                socket.on('createRoom', function (room){
+                   $('#roomCode').append(room.code);
+                   socket.room = room;
+                });
+                
+                socket.on('updatePlayersRoom', function(room){
+                    if(socket.room.code == room.code){
+                        $('#players').empty();
+                        $.each(room.participants, function(key, player) {
+                            $('#players').append(player.name+'<br>');
+                        });
+                    }
                 });
             </script>
         </div>
