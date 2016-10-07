@@ -2,8 +2,13 @@
 //var __dirname = '/Mes documents/workspace-nodejs/dis-ce-que-tu-veux';
 //Pour l'ordinateur chez Val
 //var __dirname = '';
-//Pour l'ordinateur à l'Université
-var __dirname = '/home/m2eserv/vasseur/Documents/M2_GLIHM-PLATINE/dis-ce-que-tu-veux';
+//Pour l'ordinateur à l'Université (Nico)
+//var __dirname = '/home/m2eserv/vasseur/Documents/M2_GLIHM-PLATINE/dis-ce-que-tu-veux';
+//Pour l'ordinateur à l'Université (Nico)
+//var __dirname = '/home/m2eserv/ramecourt/Documents/M2_GLIHM-PLATINE/dis-ce-que-tu-veux';
+
+// Utiliser res.sendFile("/client/index.html", {"root": __dirname}); au lieu de res.sendFile(__dirname+'/client/index.html');
+var __dirname = './';
 
 // Création d'un nouveau serveur avec le module Express
 var express = require('express');
@@ -16,39 +21,42 @@ app.use(express.static(__dirname));
 var MAX_PARTICIPANTS_PER_GAME = 8; // Nombre maximal de participants (hors membres du jury) dans une partie
 var rooms = []; // Liste des salons actifs
 var players = []; // Liste des joueurs
-var currentPlayer; // Joueur courant 
+var currentPlayer; // Joueur courant
 
 // Le fichier envoyé par le serveur
 app.get('/', function (req, res) {
-    res.sendFile(__dirname+'/client/index.html');
+    //res.sendFile(__dirname+'/client/index.html');
+    res.sendFile("/client/index.html", {"root": __dirname});
 });
 
 app.get('/host_game', function(req, res){
-   res.sendFile(__dirname+'/client/host_game.html');
+   // res.sendFile(__dirname+'/client/host_game.html');
+   res.sendFile("/client/host_game.html", {"root": __dirname});
 });
 
 app.get('/join_game', function(req, res){
-   res.sendFile(__dirname+'/client/join_game.html');
+   // res.sendFile(__dirname+'/client/join_game.html');
+   res.sendFile("/client/join_game.html", {"root": __dirname});
 });
 
 // Instructions lors de la connexion d'un client, on identifie le client avec la socket
 io.on('connection', function (socket) {
     // On affiche dans la console
     console.log('L\'utilisateur '+socket.id+' vient de se connecter.');
-    
+
     // On envoie un event message au client qui vient de se connecter
     socket.emit('message', 'Vous êtes bien connecté !');
-    
+
     // Quand un client se déconnecte
     socket.on('disconnect', function () {
         console.log('L\'utilisateur '+socket.id+' vient de se déconnecter.');
     });
-    
+
     // Quand un client nous envoie un event register
     socket.on('register', function (id) {
         // Emet un événement à tous les clients connectés
         //io.emit('message', msg);
-        
+
         // Si il y a un id stocké localement
         if(id != undefined){
             // S'il n'existe pas dans la liste des joueurs connectés du serveur, on l'ajoute
@@ -57,7 +65,7 @@ io.on('connection', function (socket) {
                 console.log('Nouvel utilisateur créé malgré le fait qu\'il y avait un id stocké localement : '+id);
             }
             console.log('Utilisateur reconnu : '+id);
-            
+
         // Pas d'id stocké localement
         } else {
             id = Math.random().toString(36).substring(3,16) + +new Date;
@@ -67,9 +75,9 @@ io.on('connection', function (socket) {
         }
 
         currentPlayer = players[id];
-        
+
     });
-    
+
     // Demande de création d'un salon
     socket.on('createRoom', function(roomId){
         // Création du salon
@@ -80,17 +88,17 @@ io.on('connection', function (socket) {
         //socket.emit('updateRooms', rooms, socket.room);
         socket.broadcast.emit('updateRooms', rooms);
     });
-    
+
     // Suppression d'un salon quand l'hébergeur le quitte
     socket.on('deleteRoom', function(room){
         rooms.splice(rooms.indexOf(room), 1);
     });
-    
+
     // On demande les salons existants en arrivant sur la page pour rejoindre un salon
     socket.on('askRooms', function(){
-       socket.emit('updateRooms', rooms); 
+       socket.emit('updateRooms', rooms);
     });
-    
+
     // Un joueur veut rejoindre un salon
     socket.on('joinRoom', function(roomCode){
         roomFound = false;
@@ -121,7 +129,7 @@ http.listen(3000, function () {
 function Player(socket){
     this.state = 0;
     this.name = socket.id;
-    
+
     this.getName = function(){
         return this.name;
     };
@@ -134,11 +142,11 @@ function Room(id, creator){
     this.code = 'LXVY';
     this.participants = [creator];
     this.jurys = [];
-    
+
     /**
      * Permet l'ajout d'un participant dans le salon
      * Vérfie le nombre de participants, renvoie vrai si le participant a bien été ajouté, faux sinon
-     * 
+     *
      * @param {Player} participant
      * @returns {Boolean}
      */
