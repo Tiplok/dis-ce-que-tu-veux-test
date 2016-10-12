@@ -9,7 +9,7 @@ Nécessite l'installation de Node.js, du module express et socket.io pour faire 
 - Accès au serveur en externe (serveur lancé sur la machine M5) : 'http://172.18.13.133:3000/' ou 'http://172.18.13.134:3000' dans un navigateur (PC Nico/PC Val)
 
 ### Lien vers le blog
-[Blog - Dis ce que tu veux](" https://discequetuveux.wordpress.com/")
+[Blog - Dis ce que tu veux](https://discequetuveux.wordpress.com/)
 
 ### Liens d'aide :
 - [Tutoriel Forum - socket.io](http://stackoverflow.com/questions/4094350/good-beginners-tutorial-to-socket-io)
